@@ -1,0 +1,28 @@
+.App {}
+
+.App__alerts {
+  display: flex;
+  flex-direction: column-reverse;
+  left: 0;
+  list-style-type: none;
+  margin: 10px 0 0 10px;
+  max-width: 400px;
+  padding-left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.App__alert {
+  display: block;
+  margin-top: 10px;
+}
+
+@media (min-width: 768px) {
+  .App__alerts {
+    bottom: 0;
+    margin: 0 0 30px 30px;
+    top: inherit;
+  }
+}

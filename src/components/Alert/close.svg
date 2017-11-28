@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <g id="Icon_NotificationClose">
+    <path id="Icon" class="cls-1" d="M254.723,246.693L249.417,252l5.275,5.275a1,1,0,1,1-1.416,1.417L248,253.417l-5.275,5.275a1,1,0,0,1-1.417-1.417L246.583,252l-5.306-5.307a1,1,0,0,1,1.416-1.416L248,250.583l5.307-5.306A1,1,0,0,1,254.723,246.693Z" transform="translate(-240 -244)"/>
+  </g>
+</svg>

@@ -1,0 +1,31 @@
+.Alert {
+  border-radius: 4px;
+  color: #fff;
+  font-family: "Inter UI", sans-serif;
+  font-weight: 500;
+  line-height: 1.5;
+  padding: 20px 40px 20px 20px;
+  position: relative;
+}
+
+.Alert--success {
+  background-color: #3cca5e; /* Green */
+}
+
+.Alert--error {
+  background-color: #f2565a; /* Red */
+}
+
+.Alert--info {
+  background-color: #00a1f1; /* Blue */
+}
+
+.Alert__close-icon {
+  cursor: pointer;
+  height: 12px;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+}
