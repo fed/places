@@ -1,149 +1,213 @@
 // @flow
 import React from 'react';
-import debounce from 'lodash/debounce';
-import update from 'immutability-helper';
-import {typeaheadSearch} from '../../services/maps';
-import type {Place, GooglePlacesSuggestion} from '../../state/types';
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng
+} from 'react-places-autocomplete';
+import uuid from 'uuid/v1';
+import type { Place, LatLng } from '../../state/types';
 import './styles.css';
 
 type Props = {
   onSubmit: (place: Place) => void
 };
 
-type State = {
-  place: Place,
-  searchTerm: string,
-  suggestions: Array<GooglePlacesSuggestion>
+type State = Place & {
+  address: string
 };
 
 export default class Form extends React.Component<Props, State> {
   state = {
-
+    address: '',
+    name: '',
+    description: '',
+    visited: false,
+    location: {
+      lat: null,
+      lng: null
+    },
+    attachments: []
   };
 
-  constructor() {
-    super();
-
-    this.state = {
-      place: {
-        name: '',
-        description: '',
-        country: '',
-        coords: {
-          lat: 0,
-          lng: 0
-        }
-      },
-      searchTerm: '',
-      suggestions: []
-    };
-
-    this.onTypeaheadSearch = debounce(this.onTypeaheadSearch, 400);
-  }
+  componentWillMount = () => {
+    // Add our first attachment field
+    this.onAddAttachment();
+  };
 
   onNameChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
-    const nextName = event.target.value;
-    const nextState = update(this.state, {
-      place: { name: { $set: nextName } }
+    this.setState({
+      name: event.target.value
     });
-
-    this.setState(nextState);
   };
 
   onDescriptionChange = (event: SyntheticInputEvent<HTMLTextAreaElement>) => {
-    const nextDescription = event.target.value;
-    const nextState = update(this.state, {
-      place: { description: { $set: nextDescription } }
+    this.setState({
+      description: event.target.value
+    });
+  };
+
+  onAddressChange = (value: string) => {
+    this.setState({
+      address: value
+    });
+  };
+
+  onAddAttachment = () => {
+    this.setState(prevState => ({
+      attachments: prevState.attachments.concat([
+        {
+          id: uuid(),
+          type: 'image',
+          url: ''
+        }
+      ])
+    }));
+  };
+
+  onAttachmentUrlChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const id = event.target.parentElement.id;
+    const nextAttachments = this.state.attachments.map(attachment => {
+      if (attachment.id === id) {
+        attachment.url = value;
+      }
+
+      return attachment;
     });
 
-    this.setState(nextState);
+    this.setState({
+      attachments: nextAttachments
+    });
   };
 
-  onSearchTermChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value;
+  onAttachmentTypeChange = (event: SyntheticEvent<HTMLSelectElement>) => {
+    const value = event.target.value;
+    const id = event.target.parentElement.id;
+    const nextAttachments = this.state.attachments.map(attachment => {
+      if (attachment.id === id) {
+        attachment.type = value;
+      }
 
-    this.setState(
-      { searchTerm },
-      this.onTypeaheadSearch
-    );
-  };
+      return attachment;
+    });
 
-  onTypeaheadSearch = () => {
-    typeaheadSearch(this.state.searchTerm).then(suggestions => {
-      this.setState({
-        suggestions
-      });
+    this.setState({
+      attachments: nextAttachments
     });
   };
 
   onSubmit = (event: SyntheticEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    this.props.onSubmit(this.state.place);
+
+    geocodeByAddress(this.state.address)
+      .then(results => getLatLng(results[0]))
+      .then((location: LatLng) => {
+        this.setState(
+          {
+            location
+          },
+          () => {
+            const { address, ...place } = this.state;
+
+            this.props.onSubmit(place);
+          }
+        );
+      })
+      .catch(error => console.error('Error', error));
   };
 
   render() {
     return (
-      <form method="POST">
+      <form method="POST" className="Form">
         <ul className="Form__list">
           <li className="Form__list-item">
-            <label className="Form__label" htmlFor="place-name">Place or Activity</label>
+            <label className="Form__label" htmlFor="place-name">
+              Place or Activity
+            </label>
             <input
               id="place-name"
               type="text"
               className="Form__input"
               placeholder="e.g.: Go diving to the Great Barrier Reef"
-              value={this.state.place.name}
+              value={this.state.name}
               onChange={this.onNameChange}
-              required />
+              required
+            />
           </li>
 
           <li className="Form__list-item">
-            <label className="Form__label" htmlFor="place-description">Description</label>
+            <label className="Form__label" htmlFor="place-description">
+              Description
+            </label>
             <textarea
               id="place-description"
               className="Form__input"
               rows={4}
               placeholder="e.g.: Home to diverse marine life of the most vivid colours, the Great Barrier Reef offers the opportunity for great adventure."
-              value={this.state.place.description}
+              value={this.state.description}
               onChange={this.onDescriptionChange}
-              required />
+            />
           </li>
 
           <li className="Form__list-item">
-            <label className="Form__label" htmlFor="place-typeahead">Find in Google Maps</label>
-            <input
-              id="place-typeahead"
-              type="text"
-              className="Form__input"
-              placeholder="e.g.: Cairns, Queensland, Australia"
-              value={this.state.searchTerm}
-              onChange={this.onSearchTermChange}
-              required />
-            <ul className="Form__suggestions">
-              {
-                this.state.suggestions.map((suggestion, index) => (
-                  <li className="Form__suggestions-item" key={index}>
-                    {suggestion.formatted_address}
-                  </li>
-                ))
-              }
+            <label className="Form__label" htmlFor="place-address">
+              Find in Google Maps
+            </label>
+            <PlacesAutocomplete
+              classNames={{
+                input: 'Form__input'
+              }}
+              inputProps={{
+                htmlFor: 'place-address',
+                value: this.state.address,
+                onChange: this.onAddressChange
+              }}
+            />
+          </li>
+
+          <li className="Form__list-item">
+            <label className="Form__label">
+              Attachments –{' '}
+              <a
+                onClick={this.onAddAttachment}
+                className="Form__attachment-add"
+              >
+                Add another one
+              </a>
+            </label>
+            <ul className="Form__list">
+              {this.state.attachments.map(attachment => (
+                <li
+                  className="Form__list-item Form__attachment"
+                  key={attachment.id}
+                  // we need this so that we can target the appropriate state field
+                  id={attachment.id}
+                >
+                  <input
+                    type="text"
+                    className="Form__input"
+                    value={attachment.url}
+                    onChange={this.onAttachmentUrlChange}
+                  />
+                  <select
+                    className="Form__attachment-type"
+                    onChange={this.onAttachmentTypeChange}
+                  >
+                    <option value="image">Image</option>
+                    <option value="video">Video</option>
+                    <option value="link">Link</option>
+                  </select>
+                </li>
+              ))}
             </ul>
           </li>
 
-          <li className="Form__list-item">
-            <label className="Form__label" htmlFor="place-country">Country</label>
-            <input
-              id="place-country"
-              type="text"
-              className="Form__input"
-              placeholder="e.g.: Australia"
-              value={this.state.place.country}
-              required
-              disabled />
-          </li>
-
           <li>
-            <button type="submit" className="Form__submit" onClick={this.onSubmit}>
+            <button
+              type="submit"
+              className="Form__submit"
+              onClick={this.onSubmit}
+            >
               Save
             </button>
           </li>

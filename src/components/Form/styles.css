@@ -1,3 +1,7 @@
+.Form {
+  width: 450px;
+}
+
 .Form__list {
   list-style-type: none;
   margin: 0;
@@ -12,7 +16,7 @@
 .Form__label {
   color: #333;
   display: block;
-  font-family: "Inter UI", sans-serif;
+  font-family: 'Inter UI', sans-serif;
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 5px;
@@ -20,9 +24,23 @@
 
 .Form__input {
   display: block;
-  font-family: "Inter UI", sans-serif;
-  max-width: 350px;
+  font-family: 'Inter UI', sans-serif;
   width: 100%;
+}
+
+.Form__attachment {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.Form__attachment-type {
+  margin-left: 10px;
+}
+
+.Form__attachment-add {
+  cursor: pointer;
+  font-weight: normal;
+  text-decoration: underline;
 }
 
 .Form__submit {
@@ -31,7 +49,7 @@
   border-radius: 4px;
   color: #fff;
   cursor: pointer;
-  font-family: "Inter UI", sans-serif;
+  font-family: 'Inter UI', sans-serif;
   font-size: 14px;
   padding: 10px 35px;
 }

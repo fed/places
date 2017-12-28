@@ -3,14 +3,30 @@
  * To use it, set your font-family to: "Inter UI", sans-serif;
  */
 
-@import url("https://rsms.me/inter/inter-ui.css");
+@import url('https://rsms.me/inter/inter-ui.css');
 
 /*
  * Normalize.css makes browsers render all elements
  * more consistently and in line with modern standards.
  */
 
-@import url("../node_modules/normalize.css/normalize.css");
+@import url('../node_modules/normalize.css/normalize.css');
+
+/*
+ * Apply a natural box layout model to all elements,
+ * but allowing components to change.
+ * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
+ */
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
 
 /*
  * Global Styles
@@ -27,12 +43,12 @@ body {
  * Taken from https://purecss.io v0.6.2
  */
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="url"],
-input[type="number"],
-input[type="search"],
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input[type='url'],
+input[type='number'],
+input[type='search'],
 select,
 textarea {
   border: 1px solid #ccc;
@@ -43,25 +59,25 @@ textarea {
   vertical-align: middle;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-input[type="number"]:focus,
-input[type="search"]:focus,
+input[type='text']:focus,
+input[type='password']:focus,
+input[type='email']:focus,
+input[type='url']:focus,
+input[type='number']:focus,
+input[type='search']:focus,
 select:focus,
 textarea:focus {
   border-color: #129fea;
   outline: 0;
 }
 
-input[type="text"][disabled],
-input[type="password"][disabled],
-input[type="email"][disabled],
-input[type="url"][disabled],
-input[type="number"][disabled],
-input[type="search"][disabled],
-input[type="color"][disabled],
+input[type='text'][disabled],
+input[type='password'][disabled],
+input[type='email'][disabled],
+input[type='url'][disabled],
+input[type='number'][disabled],
+input[type='search'][disabled],
+input[type='color'][disabled],
 select[disabled],
 textarea[disabled] {
   background-color: #eaeded;
@@ -72,9 +88,9 @@ textarea[disabled] {
 input[readonly],
 select[readonly],
 textarea[readonly] {
-  background-color: #eee; /* menu hover bg color */
+  background-color: #eee;
   border-color: #ccc;
-  color: #777; /* menu text color */
+  color: #777;
 }
 
 input:focus:invalid,
@@ -85,8 +101,8 @@ select:focus:invalid {
 }
 
 select {
-  /* Normalizes the height; padding is not sufficient. */
-  background-color: white;
+  /* Normalizes the height; padding is not enough. */
+  background-color: #fff;
   border: 1px solid #ccc;
-  height: 28px;
+  height: 40px;
 }

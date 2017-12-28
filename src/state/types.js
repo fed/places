@@ -1,15 +1,22 @@
 // @flow
 
+export type Attachment = {
+  id: string,
+  url: string,
+  type: 'link' | 'image' | 'video'
+};
+
 export type LatLng = {
-  lat: number,
-  lng: number
+  lat: ?number,
+  lng: ?number
 };
 
 export type Place = {
   name: string,
   description: string,
-  country: string,
-  coords: LatLng
+  visited: boolean,
+  location: LatLng,
+  attachments: Array<Attachment>
 };
 
 export type Alert = {

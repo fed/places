@@ -13,9 +13,11 @@
     "normalize.css": "^7.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-places-autocomplete": "^5.4.3",
     "react-scripts": "1.0.17",
     "stato": "github:fknussel/stato",
-    "surge": "^0.19.0"
+    "surge": "^0.19.0",
+    "uuid": "^3.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
