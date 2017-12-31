@@ -1,0 +1,11 @@
+machine:
+  node:
+    version: 8.9.1
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - npm run build
+      - cp build/index.html build/200.html
+      - surge --project ./build --domain https://places.fknussel.com
