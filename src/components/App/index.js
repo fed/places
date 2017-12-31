@@ -1,23 +1,37 @@
+// @flow
 import React from 'react';
+import Alert from '../Alert';
+import Spinner from '../Spinner';
 import Form from '../Form';
+import { hideAlert, requestPlaces, addPlace } from '../../state/actions';
+import type { Store } from '../../state/types';
 import './styles.css';
 
-export default function App() {
-  return (
-    <div className="App">
-      <Form onSubmit={console.log} />
+type Props = Store;
 
-      {/* <Spinner isVisible={this.props.loading} />
+export default class App extends React.Component<Props> {
+  componentWillMount() {
+    // Bootstrap the application state by fetching all places.
+    requestPlaces();
+  }
 
-      <ul className="App__alerts">
-        {this.props.alerts.map((alert, index) => (
-          <li className="App__alert" key={index}>
-            <Alert type={alert.type} onClose={() => hideAlert(alert.id)}>
-              {alert.message}
-            </Alert>
-          </li>
-        ))}
-      </ul> */}
-    </div>
-  );
+  render() {
+    return (
+      <React.Fragment>
+        <Form onSubmit={addPlace} />
+
+        <Spinner isVisible={this.props.loading} />
+
+        <ul className="App__alerts">
+          {this.props.alerts.map((alert, index) => (
+            <li className="App__alert" key={index}>
+              <Alert type={alert.type} onClose={() => hideAlert(alert.id)}>
+                {alert.message}
+              </Alert>
+            </li>
+          ))}
+        </ul>
+      </React.Fragment>
+    );
+  }
 }

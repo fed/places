@@ -1,6 +1,6 @@
-import {SHOW_SPINNER} from './actions';
-
-console.log('Actions cannot be imported for some reason', SHOW_SPINNER);
+// const rootReducer = {};
+//
+// rootReducer['SPINNER/SHOW'] = state => ({ ...state, loading: true });
 
 export default {
   // Spinner
@@ -28,14 +28,8 @@ export default {
   },
 
   // Places
-  'PLACES/RECEIVED': (state, newPlaces) => {
+  'PLACES/RECEIVE': (state, newPlaces) => {
     const places = state.places.concat(newPlaces);
-
-    return { ...state, places };
-  },
-
-  'PLACES/ADD': (state, place) => {
-    const places = state.places.concat([place]);
 
     return { ...state, places };
   },

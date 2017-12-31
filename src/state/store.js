@@ -1,7 +1,7 @@
 // @flow
-import Store from './stato';
+import Store from 'stato';
 import reducers from './reducers';
-import type {Store as StoreType} from './types';
+import type { Store as StoreType } from './types';
 
 const initialState: StoreType = {
   loading: false,
@@ -9,6 +9,4 @@ const initialState: StoreType = {
   places: []
 };
 
-const store = new Store(reducers, initialState);
-
-export default store;
+export default new Store(reducers, initialState);

@@ -5,6 +5,7 @@ import PlacesAutocomplete, {
   getLatLng
 } from 'react-places-autocomplete';
 import uuid from 'uuid/v1';
+import get from 'lodash/get';
 import type { Place, LatLng } from '../../state/types';
 import './styles.css';
 
@@ -12,7 +13,7 @@ type Props = {
   onSubmit: (place: Place) => void
 };
 
-type State = Place & {
+export type State = Place & {
   address: string
 };
 
@@ -30,7 +31,7 @@ export default class Form extends React.Component<Props, State> {
   };
 
   componentWillMount = () => {
-    // Add our first attachment field
+    // Start off with an empty field on the attachments list.
     this.onAddAttachment();
   };
 
@@ -66,7 +67,7 @@ export default class Form extends React.Component<Props, State> {
 
   onAttachmentUrlChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    const id = event.target.parentElement.id;
+    const id = get(event, 'target.parentElement.id');
     const nextAttachments = this.state.attachments.map(attachment => {
       if (attachment.id === id) {
         attachment.url = value;
@@ -82,7 +83,7 @@ export default class Form extends React.Component<Props, State> {
 
   onAttachmentTypeChange = (event: SyntheticEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    const id = event.target.parentElement.id;
+    const id = get(event, 'target.parentElement.id');
     const nextAttachments = this.state.attachments.map(attachment => {
       if (attachment.id === id) {
         attachment.type = value;
@@ -107,7 +108,16 @@ export default class Form extends React.Component<Props, State> {
             location
           },
           () => {
+            // Parse Form component state to API expected input.
             const { address, ...place } = this.state;
+            const cleanedUpAttachments = place.attachments
+              .filter(attachment => attachment.url !== '')
+              .map(attachment => ({
+                url: attachment.url,
+                type: attachment.type
+              }));
+
+            place.attachments = cleanedUpAttachments;
 
             this.props.onSubmit(place);
           }

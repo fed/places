@@ -20,7 +20,7 @@ export type Place = {
 };
 
 export type Alert = {
-  id: number,
+  id?: string,
   message: string,
   type: 'success' | 'error' | 'info'
 };

@@ -1,5 +1,3 @@
-.App {}
-
 .App__alerts {
   display: flex;
   flex-direction: column-reverse;
