@@ -17,7 +17,7 @@ export default class App extends React.Component<Props> {
 
   render() {
     return (
-      <React.Fragment>
+      <div className="App">
         <Form onSubmit={addPlace} />
 
         <Spinner isVisible={this.props.loading} />
@@ -31,7 +31,7 @@ export default class App extends React.Component<Props> {
             </li>
           ))}
         </ul>
-      </React.Fragment>
+      </div>
     );
   }
 }
