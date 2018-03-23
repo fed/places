@@ -7,7 +7,6 @@ import registerServiceWorker from './utils/worker';
 import './index.css';
 
 store.subscribe(props => {
-  console.log(props);
   ReactDOM.render(<App {...props} />, document.getElementById('root'));
 });
 
