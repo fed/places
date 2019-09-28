@@ -30,7 +30,7 @@ export default class Form extends React.Component<Props, State> {
     attachments: []
   };
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     // Start off with an empty field on the attachments list.
     this.onAddAttachment();
   };

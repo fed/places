@@ -10,7 +10,7 @@ import './styles.css';
 type Props = Store;
 
 export default class App extends React.Component<Props> {
-  componentWillMount() {
+  componentDidMount() {
     // Bootstrap the application state by fetching all places.
     requestPlaces();
   }
