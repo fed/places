@@ -15,9 +15,9 @@ export default function Alert(props: Props) {
     <div className={classnames('Alert', `Alert--${props.type}`)}>
       {props.children}
 
-      <a onClick={props.onClose}>
+      <button className="Alert__close-button" onClick={props.onClose}>
         <img className="Alert__close-icon" src={closeIcon} alt="Dismiss" />
-      </a>
+      </button>
     </div>
   );
 }

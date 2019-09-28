@@ -178,12 +178,12 @@ export default class Form extends React.Component<Props, State> {
           <li className="Form__list-item">
             <label className="Form__label">
               Attachments –{' '}
-              <a
+              <button
                 onClick={this.onAddAttachment}
                 className="Form__attachment-add"
               >
                 Add another one
-              </a>
+              </button>
             </label>
             <ul className="Form__list">
               {this.state.attachments.map(attachment => (

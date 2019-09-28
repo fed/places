@@ -38,6 +38,7 @@
 }
 
 .Form__attachment-add {
+  border-style: none;
   cursor: pointer;
   font-weight: normal;
   text-decoration: underline;

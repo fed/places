@@ -20,12 +20,18 @@
   background-color: #00a1f1; /* Blue */
 }
 
-.Alert__close-icon {
+.Alert__close-button {
+  background-color: transparent;
+  border-style: none;
   cursor: pointer;
-  height: 12px;
+  padding: 0;
   position: absolute;
   right: 15px;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.Alert__close-icon {
+  height: 12px;
   width: 15px;
 }
